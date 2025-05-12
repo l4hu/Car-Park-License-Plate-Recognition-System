@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}License Plates - Smart Car Park System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Registered License Plates</h1>
+    <a href="{{ url_for('add_plate') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Add New Plate
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>License Plate</th>
+                        <th>Registration Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if plates %}
+                        {% for plate in plates %}
+                        <tr>
+                            <td>{{ plate.plate_number }}</td>
+                            <td>{{ plate.added_date }}</td>
+                            <td>
+                                <form action="{{ url_for('remove_plate', plate_id=plate.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to remove this plate?')">
+                                        <i class="bi bi-trash"></i> Remove
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center">No license plates registered</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+{% endblock %}
